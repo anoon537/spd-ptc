@@ -1,0 +1,501 @@
+﻿<!doctype html>
+<html lang="id">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#123b65" />
+  <meta name="description" content="Form permintaan Surat Perjalanan Dinas PTC." />
+  <title>Form Permintaan SPD · PTC</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+  <style>
+    .date-digit {
+      display: inline-flex;
+      width: 20px;
+      height: 22px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .document-logo {
+      width: 100px;
+    }
+
+    .signature-image {
+      display: block;
+      width: 42mm;
+      height: 20mm;
+      object-fit: contain;
+      margin: 0 auto;
+    }
+
+    .signature-space {
+      height: 20mm;
+    }
+
+    @media screen {
+      body {
+        background: #f3f6fa;
+        color: #1d2b3a;
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      }
+
+      .app-shell {
+        max-width: 1680px;
+        margin-inline: auto;
+      }
+
+      .app-header {
+        padding-bottom: 0.9rem;
+        border-bottom: 1px solid #dfe6ee;
+      }
+
+      .app-title {
+        color: #123b65;
+        letter-spacing: 0.02em;
+      }
+
+      .panel-card {
+        border: 1px solid #e1e8f0;
+        border-radius: 1rem;
+        background: #fff;
+        box-shadow: 0 0.75rem 2rem rgba(26, 48, 73, 0.06) !important;
+      }
+
+      .form-label {
+        margin-bottom: 0.35rem;
+        color: #42566b;
+        font-size: 0.82rem;
+        font-weight: 600;
+      }
+
+      .form-control {
+        min-height: 2.75rem;
+        border-color: #d5dee8;
+        border-radius: 0.65rem;
+      }
+
+      .form-control:focus {
+        border-color: #7a9fc6;
+        box-shadow: 0 0 0 0.2rem rgba(18, 59, 101, 0.12);
+      }
+
+      textarea.form-control {
+        min-height: 6rem;
+      }
+
+      .form-section-heading {
+        padding-top: 1rem;
+        border-top: 1px solid #e1e8f0;
+        color: #123b65;
+        font-weight: 700;
+      }
+
+      .form-actions .btn {
+        min-height: 2.75rem;
+        border-radius: 0.65rem;
+      }
+
+      .btn-primary {
+        --bs-btn-bg: #123b65;
+        --bs-btn-border-color: #123b65;
+        --bs-btn-hover-bg: #0d2f52;
+        --bs-btn-hover-border-color: #0d2f52;
+        --bs-btn-active-bg: #0d2f52;
+        --bs-btn-active-border-color: #0d2f52;
+      }
+
+      .text-primary {
+        color: #123b65 !important;
+      }
+
+      .mobile-view-tabs {
+        display: none !important;
+      }
+    }
+
+    @media screen and (max-width: 575.98px) {
+      .app-header small {
+        width: 100%;
+      }
+
+      .form-actions .btn {
+        flex: 1 1 0;
+      }
+    }
+
+    @media screen and (max-width: 991.98px) {
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .app-shell {
+        display: flex;
+        height: 100vh;
+        height: 100dvh;
+        padding: 0.5rem !important;
+        gap: 0.5rem;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .app-header {
+        margin-bottom: 0 !important;
+      }
+
+      .mobile-view-tabs {
+        display: flex !important;
+        flex: 0 0 auto;
+      }
+
+      .app-panels {
+        flex: 1 1 auto;
+        min-height: 0;
+        margin: 0;
+        flex-wrap: nowrap;
+      }
+
+      .app-panel {
+        display: none;
+        width: 100%;
+        padding: 0;
+      }
+
+      .app-panel.is-active {
+        display: flex;
+        min-height: 0;
+        flex-direction: column;
+      }
+
+      .panel-card {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+
+    @page {
+        size: A4 landscape;
+      margin: 0;
+    }
+
+    @media print {
+      [data-boxdate] {
+        gap: 2px !important;
+      }
+
+      html,
+      body {
+        width: 297mm;
+        height: 210mm;
+      }
+
+      main.container-fluid {
+        width: 297mm;
+        max-width: none;
+        padding: 0 !important;
+      }
+
+      main.container-fluid>.row>section:last-child {
+        width: 100%;
+        padding: 8mm;
+      }
+
+      main.container-fluid>.row>section:last-child>.card {
+        border: 0 !important;
+        box-shadow: none !important;
+      }
+
+      main.container-fluid>.row>section:last-child>.card,
+      main.container-fluid>.row>section:last-child>.card * {
+        font-family: Arial, sans-serif !important;
+        font-size: 11pt !important;
+      }
+
+      .signature-area {
+        border-left: 1px solid #212529;
+      }
+
+      .document-logo {
+        width: 32mm;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container-fluid px-3 px-lg-4 py-4 app-shell">
+    <header class="d-flex justify-content-between align-items-center gap-2 flex-wrap mb-3 d-print-none app-header">
+      <div class="fw-bold fs-5 app-title">PTC · FORM SPD</div>
+      <small class="text-secondary">Form permintaan Surat Perjalanan Dinas</small>
+    </header>
+    <nav class="btn-group mobile-view-tabs d-print-none" aria-label="Pilih tampilan">
+      <button class="btn btn-primary" type="button" data-view="form">Form</button>
+      <button class="btn btn-outline-primary" type="button" data-view="preview">Pratinjau</button>
+    </nav>
+    <div class="row g-3 align-items-stretch app-panels">
+      <section class="col-12 col-lg-4 d-print-none app-panel is-active" data-panel="form">
+        <div class="card shadow-sm panel-card">
+          <div class="card-body p-3 p-lg-4">
+            <h1 class="h5 mb-1">Jadwal dan akomodasi</h1>
+            <p class="small text-secondary mb-3">
+              Isi jadwal dan akomodasi, lalu lengkapi data perjalanan.
+            </p>
+            <div class="row g-3">
+              <div class="col-6">
+                <label class="form-label" for="departDate">Tanggal berangkat</label><input class="form-control"
+                  id="departDate" type="date" />
+              </div>
+              <div class="col-6">
+                <label class="form-label" for="returnDate">Tanggal kembali</label><input class="form-control"
+                  id="returnDate" type="date" />
+              </div>
+              <div class="col-6">
+                <label class="form-label" for="hotel">Hotel</label><input class="form-control" id="hotel"
+                  placeholder="Nama hotel" />
+              </div>
+              <div class="col-6">
+                <label class="form-label" for="checkin">Check in</label><input class="form-control" id="checkin"
+                  type="date" />
+              </div>
+              <div class="col-6">
+                <label class="form-label" for="checkout">Check out</label><input class="form-control" id="checkout"
+                  type="date" />
+              </div>
+              <div class="col-6">
+                <label class="form-label" for="accommodationNote">Keterangan penginapan</label><input
+                  class="form-control" id="accommodationNote" placeholder="Contoh: Non Residensial" />
+              </div>
+              <div class="col-6">
+                <label class="form-label" for="transport">Transportasi</label><input class="form-control" id="transport"
+                  value="Kendaraan Pribadi" />
+              </div>
+              <div class="col-6">
+                <label class="form-label" for="transportNote">Keterangan transportasi</label><input class="form-control"
+                  id="transportNote" value="Non Residensial" />
+              </div>
+              <div class="col-12">
+                <div class="d-flex gap-2 form-actions">
+                  <button class="btn btn-primary" id="printBtn">Cetak / Simpan PDF</button>
+                  <button class="btn btn-outline-secondary" id="resetBtn">Reset</button>
+                </div>
+                <p class="small text-secondary mt-3 mb-0">
+                  Bagian persetujuan atasan dan area tanda tangan dibuat tetap. Pilih
+                  “Simpan sebagai PDF” pada dialog cetak untuk menyimpan dokumen.
+                </p>
+              </div>
+              <div class="col-12 form-section-heading">Data perjalanan</div>
+              <div class="col-6">
+                <label class="form-label" for="requestDate">Tanggal pengajuan</label><input class="form-control"
+                  id="requestDate" type="date" />
+              </div>
+              <div class="col-6">
+                <label class="form-label" for="nopek">Nopek</label><input class="form-control" id="nopek"
+                  value="D186-260421" />
+              </div>
+              <div class="col-12">
+                <label class="form-label" for="name">Nama pemohon</label><input class="form-control" id="name"
+                  value="Muhammad Mahmuda Prawira" />
+              </div>
+              <div class="col-6">
+                <label class="form-label" for="origin">Asal</label><input class="form-control" id="origin"
+                  value="Banyumas" />
+              </div>
+              <div class="col-6">
+                <label class="form-label" for="destination">Tujuan</label><input class="form-control" id="destination"
+                  value="Banyumas" />
+              </div>
+              <div class="col-12">
+                <label class="form-label" for="purpose">Dalam rangka</label><textarea class="form-control" id="purpose">
+Preventive Maintenance SPBU di Kabupaten Banyumas, tanggal 20 Oktober 2026
+SPBU: 44.531.01, 44.531.38, 44.531.09, 44.531.30</textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="col-12 col-lg-8 app-panel" data-panel="preview">
+        <div class="d-flex justify-content-between mb-2 small text-secondary d-print-none">
+          <strong>Pratinjau dokumen</strong><span>A4 lanskap · siap cetak</span>
+        </div>
+        <div class="card shadow-sm text-dark panel-card">
+          <div class="card-body p-3 p-lg-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="fw-bold">Form Data Permintaan SPD</div>
+              <img class="img-fluid document-logo" src="logo-ptc.svg" alt="Logo Pertamina Training &amp; Consulting" />
+            </div>
+            <div class="row border border-dark">
+              <div class="col-12 col-md-5 p-2 border-end border-dark">
+                <div class="row g-0">
+                  <div class="col-12">
+                    <div class="row g-0"><span class="col-3">Tanggal</span><span class="col-auto me-2">:</span><span
+                        class="col" data-out="requestDate"></span></div>
+                    <div class="row g-0"><span class="col-3">Nama</span><span class="col-auto me-2">:</span><span
+                        class="col text-break" data-out="name"></span></div>
+                    <div class="row g-0"><span class="col-3">Nopek</span><span class="col-auto me-2">:</span><span
+                        class="col" data-out="nopek"></span></div>
+                    <div class="row g-0"><span class="col-3">Asal</span><span class="col-auto me-2">:</span><span
+                        class="col" data-out="origin"></span></div>
+                    <div class="row g-0"><span class="col-3">Tujuan</span><span class="col-auto me-2">:</span><span
+                        class="col" data-out="destination"></span></div>
+                    <div class="row g-0"><span class="col-3">Dalam Rangka</span><span class="col-auto me-2">:</span>
+                    </div>
+                  </div>
+                </div>
+                <pre class="border border-dark p-2 my-2 text-break text-wrap" data-out="purpose"></pre>
+                <div class="row g-2 mt-1">
+                  <div class="col-6">
+                    <div class="mb-1">Tgl. Berangkat :</div>
+                    <div class="d-flex flex-wrap gap-1" data-boxdate="departDate"></div>
+                  </div>
+                  <div class="col-6">
+                    <div class="mb-1">Tgl. Kembali :</div>
+                    <div class="d-flex flex-wrap gap-1" data-boxdate="returnDate"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-7 p-2">
+                <div class="fw-semibold">Akomodasi</div>
+                <div class="fw-semibold">Penginapan</div>
+                <div class="row g-0"><span class="col-3">hotel</span><span class="col-auto me-2">:</span><span
+                    class="col text-break" data-out="hotel"></span></div>
+                <div class="row g-0"><span class="col-3">check in</span><span class="col-auto me-2">:</span><span
+                    class="col" data-out="checkin"></span></div>
+                <div class="row g-0"><span class="col-3">check out</span><span class="col-auto me-2">:</span><span
+                    class="col" data-out="checkout"></span></div>
+                <div class="row g-0"><span class="col-3">keterangan</span><span class="col-auto me-2">:</span><span
+                    class="col text-break" data-out="accommodationNote"></span></div>
+                <div class="mt-3">
+                  <div class="fw-semibold">Transport</div>
+                  <div class="row g-0"><span class="col-3">dengan</span><span class="col-auto me-2">:</span><span
+                      class="col text-break" data-out="transport"></span></div>
+                  <div class="row g-0"><span class="col-3">berangkat</span><span class="col-auto me-2">:</span><span
+                      class="col" data-out="departDate"></span></div>
+                  <div class="row g-0"><span class="col-3">kembali</span><span class="col-auto me-2">:</span><span
+                      class="col" data-out="returnDate"></span></div>
+                  <div class="row g-0"><span class="col-3">keterangan</span><span class="col-auto me-2">:</span><span
+                      class="col text-break" data-out="transportNote"></span></div>
+                </div>
+              </div>
+              <div class="col-12 col-md-7 offset-md-5 border-top border-dark signature-area">
+                <div class="row g-0 text-center">
+                  <div class="col border-end border-dark px-1">
+                    <div class="pt-1">Diminta Oleh,<br />&nbsp;</div>
+                    <div class="py-5"></div>
+                  </div>
+                  <div class="col border-end border-dark px-1">
+                    <div class="pt-1">Disetujui Oleh Atasan,<br>Team Leader SA</div>
+                    <div class="signature-space"></div>
+                    <div class="text-nowrap"><strong>Tasya Amelia</strong></div>
+                  </div>
+                  <div class="col px-1">
+                    <div class="pt-1">Dikerjakan Oleh,<br />&nbsp;</div>
+                    <img class="signature-image" src="ttdku.png" alt="Tanda tangan" />
+                    <div class="text-nowrap" data-out="name"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-end small text-secondary mt-2 d-print-none">Data pengajuan SPD · PTC</div>
+      </section>
+    </div>
+  </main>
+  <script>
+    const ids = [
+      "requestDate",
+      "nopek",
+      "name",
+      "origin",
+      "destination",
+      "purpose",
+      "departDate",
+      "returnDate",
+      "hotel",
+      "checkin",
+      "checkout",
+      "accommodationNote",
+      "transport",
+      "transportNote",
+    ];
+    const defaults = {
+      nopek: "D186-260421",
+      name: "Muhammad Mahmuda Prawira",
+      origin: "Banyumas",
+      destination: "Banyumas",
+      purpose:
+        "Preventive Maintenance SPBU di Kabupaten Banyumas, tanggal 20 Oktober 2026\nSPBU: 44.531.01, 44.531.38, 44.531.09, 44.531.30",
+      transport: "Kendaraan Pribadi",
+      transportNote: "Non Residensial",
+    };
+    const input = (id) => document.getElementById(id);
+    function fmt(id) {
+      const raw = input(id)?.value || "";
+      if (!raw) return "";
+      if (input(id).type === "date") {
+        const [y, m, d] = raw.split("-");
+        return `${d}/${m}/${y}`;
+      }
+      return raw;
+    }
+    function drawDate(el, raw) {
+      el.replaceChildren();
+      const chars = raw ? raw.split("-").reverse().join("/") : "  /  /    ";
+      for (const ch of chars) {
+        if (ch === "/") {
+          const s = document.createElement("span");
+          s.className = "px-1";
+          s.textContent = "/";
+          el.append(s);
+        } else {
+          const b = document.createElement("span");
+          b.className = "date-digit border border-dark text-center font-monospace";
+          b.textContent = ch;
+          el.append(b);
+        }
+      }
+    }
+    function update() {
+      document
+        .querySelectorAll("[data-out]")
+        .forEach((el) => (el.textContent = fmt(el.dataset.out)));
+      document
+        .querySelectorAll("[data-boxdate]")
+        .forEach((el) => drawDate(el, input(el.dataset.boxdate).value));
+    }
+    ids.forEach((id) => input(id).addEventListener("input", update));
+    const now = new Date(),
+      local = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+        .toISOString()
+        .slice(0, 10);
+    input("requestDate").value = local;
+    input("departDate").value = "";
+    input("returnDate").value = "";
+    update();
+    document.querySelectorAll("[data-view]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const selectedView = button.dataset.view;
+        document.querySelectorAll("[data-panel]").forEach((panel) => {
+          panel.classList.toggle("is-active", panel.dataset.panel === selectedView);
+        });
+        document.querySelectorAll("[data-view]").forEach((viewButton) => {
+          const selected = viewButton.dataset.view === selectedView;
+          viewButton.classList.toggle("btn-primary", selected);
+          viewButton.classList.toggle("btn-outline-primary", !selected);
+        });
+      });
+    });
+    document.getElementById("printBtn").onclick = () => window.print();
+    document.getElementById("resetBtn").onclick = () => {
+      ids.forEach((id) => (input(id).value = defaults[id] || ""));
+      update();
+    };
+  </script>
+</body>
+
+</html>
