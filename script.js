@@ -88,8 +88,14 @@
         purpose.value = purpose.value.replace(/tanggal\s+[^,\n]+/i, `tanggal ${dateRange}`);
         purposeDateMode = "inline";
       } else {
-        purpose.value = `${purpose.value.trimEnd()}\nTanggal perjalanan: ${dateRange}`;
-        purposeDateMode = "line";
+        const lines = purpose.value.split("\n");
+        const firstLine = lines.shift() || "";
+        const commaIndex = firstLine.indexOf(",");
+        const firstLineWithDate = commaIndex >= 0
+          ? `${firstLine.slice(0, commaIndex + 1)} tanggal ${dateRange}${firstLine.slice(commaIndex + 1).trimStart() ? ` ${firstLine.slice(commaIndex + 1).trimStart()}` : ""}`
+          : `${firstLine}, tanggal ${dateRange}`;
+        purpose.value = [firstLineWithDate, ...lines].join("\n");
+        purposeDateMode = "inline";
       }
     }
     function drawDate(el, raw) {
