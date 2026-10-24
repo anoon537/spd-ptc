@@ -50,14 +50,14 @@ function fmt(id) {
   const raw = input(id)?.value || "";
   if (!raw) return "";
   if (input(id).type === "date") {
-    const [y, m, d] = raw.split("-");
-    return `${d}/${m}/${y}`;
+    return formatLongDate(raw);
   }
   return raw;
 }
-let purposeDateMode = null;
+let purposeDateBase = null;
 function formatLongDate(raw) {
   return new Intl.DateTimeFormat("id-ID", {
+    weekday: "long",
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -70,47 +70,31 @@ function syncPurposeDate() {
   const returnDate = input("returnDate").value;
 
   if (!departDate && !returnDate) {
-    if (purposeDateMode === "inline") {
-      purpose.value = purpose.value.replace(
-        /tanggal\s+[^,\n]+/i,
-        "tanggal sesuai jadwal",
-      );
-    } else if (purposeDateMode === "line") {
-      purpose.value = purpose.value
-        .replace(/\n?^Tanggal perjalanan:.*$/im, "")
-        .trimEnd();
-    }
-    purposeDateMode = null;
+    if (purposeDateBase !== null) purpose.value = purposeDateBase;
+    purposeDateBase = null;
     return;
   }
 
+  if (purposeDateBase === null) purposeDateBase = purpose.value;
+  const basePurpose = purposeDateBase;
   const dateRange = [departDate, returnDate]
     .filter(Boolean)
     .map(formatLongDate)
     .join(" s.d. ");
   const linePattern = /^Tanggal perjalanan:.*$/im;
-  if (linePattern.test(purpose.value)) {
-    purpose.value = purpose.value.replace(
-      linePattern,
-      `Tanggal perjalanan: ${dateRange}`,
-    );
-    purposeDateMode = "line";
-  } else if (/tanggal\s+[^,\n]+/i.test(purpose.value)) {
-    purpose.value = purpose.value.replace(
-      /tanggal\s+[^,\n]+/i,
-      `tanggal ${dateRange}`,
-    );
-    purposeDateMode = "inline";
+  if (linePattern.test(basePurpose)) {
+    purpose.value = basePurpose.replace(linePattern, dateRange);
+  } else if (/tanggal\s+.+$/im.test(basePurpose)) {
+    purpose.value = basePurpose.replace(/tanggal\s+.+$/im, dateRange);
   } else {
-    const lines = purpose.value.split("\n");
+    const lines = basePurpose.split("\n");
     const firstLine = lines.shift() || "";
     const commaIndex = firstLine.indexOf(",");
     const firstLineWithDate =
       commaIndex >= 0
-        ? `${firstLine.slice(0, commaIndex + 1)} tanggal ${dateRange}${firstLine.slice(commaIndex + 1).trimStart() ? ` ${firstLine.slice(commaIndex + 1).trimStart()}` : ""}`
-        : `${firstLine}, tanggal ${dateRange}`;
+        ? `${firstLine.slice(0, commaIndex + 1)} ${dateRange}${firstLine.slice(commaIndex + 1).trimStart() ? ` ${firstLine.slice(commaIndex + 1).trimStart()}` : ""}`
+        : `${firstLine}, ${dateRange}`;
     purpose.value = [firstLineWithDate, ...lines].join("\n");
-    purposeDateMode = "inline";
   }
 }
 function drawDate(el, raw) {
@@ -171,6 +155,6 @@ document.querySelectorAll("[data-view]").forEach((button) => {
 document.getElementById("printBtn").onclick = () => window.print();
 document.getElementById("resetBtn").onclick = () => {
   ids.forEach((id) => (input(id).value = defaults[id] || ""));
-  purposeDateMode = null;
+  purposeDateBase = null;
   update();
 };
