@@ -107,6 +107,10 @@
   line-height: 1.25;
 }
 
+.executor-signature[hidden] {
+  display: none !important;
+}
+
 .purpose-text {
   white-space: pre-wrap !important;
   overflow-wrap: anywhere;
