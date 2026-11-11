@@ -27,9 +27,10 @@ const defaults = {
 const input = (id) => document.getElementById(id);
 const themeToggle = document.getElementById("themeToggle");
 const showSignature = input("showSignature");
-const executorSignature = input("executorSignature");
 showSignature.addEventListener("change", () => {
-  executorSignature.hidden = !showSignature.checked;
+  document.querySelectorAll(".executor-signature").forEach((signature) => {
+    signature.hidden = !showSignature.checked;
+  });
 });
 function setTheme(isDark) {
   document.body.classList.toggle("dark-mode", isDark);
