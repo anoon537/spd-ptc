@@ -181,11 +181,7 @@
                 </div>
                 <div class="col-12">
                   <label class="form-label" for="name">Nama pemohon</label
-                  ><input
-                    class="form-control"
-                    id="name"
-                    value="Muhammad Mahmuda Prawira"
-                  />
+                  ><input class="form-control" id="name" value="" />
                 </div>
                 <div class="col-6">
                   <label class="form-label" for="origin">Asal</label
@@ -205,18 +201,16 @@
 Preventive dan Corrective Maintenance SPBU di Kabupaten Banyumas</textarea
                   >
                 </div>
-                <div class="col-12">
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      id="showSignature"
-                      type="checkbox"
-                    />
-                    <label class="form-check-label" for="showSignature">
-                      Tampilkan tanda tangan Muhammad Mahmuda Prawira (centang
-                      sebelum mencetak)
-                    </label>
-                  </div>
+                <div class="col-12" id="signatureUploadGroup" hidden>
+                  <label class="form-label" for="signatureUpload">
+                    Unggah tanda tangan (PNG, JPG, atau WebP)
+                  </label>
+                  <input
+                    class="form-control"
+                    id="signatureUpload"
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp"
+                  />
                 </div>
               </div>
             </div>
@@ -371,10 +365,14 @@ Preventive dan Corrective Maintenance SPBU di Kabupaten Banyumas</textarea
                       <img
                         class="signature-image executor-signature"
                         src="ttdku.png"
-                        alt="Tanda tangan"
+                        alt="Tanda tangan pemohon"
                         hidden
                       />
-                      <div class="signature-name" data-out="name"></div>
+                      <div
+                        class="signature-name executor-signature"
+                        data-out="name"
+                        hidden
+                      ></div>
                     </div>
                   </div>
                 </div>

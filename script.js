@@ -26,11 +26,28 @@ const defaults = {
 };
 const input = (id) => document.getElementById(id);
 const themeToggle = document.getElementById("themeToggle");
-const showSignature = input("showSignature");
-showSignature.addEventListener("change", () => {
-  document.querySelectorAll(".executor-signature").forEach((signature) => {
-    signature.hidden = !showSignature.checked;
-  });
+const signatureUploadGroup = input("signatureUploadGroup");
+const signatureUpload = input("signatureUpload");
+const signatureImage = document.querySelector(".signature-image");
+let isMahmudaName = false;
+let uploadedSignatureUrl = "";
+function syncSignatureVisibility() {
+  const visible = isMahmudaName || Boolean(uploadedSignatureUrl);
+  document
+    .querySelectorAll(".executor-signature")
+    .forEach((signature) => (signature.hidden = !visible));
+}
+signatureUpload.addEventListener("change", () => {
+  const file = signatureUpload.files[0];
+  if (!file) return;
+  if (!["image/png", "image/jpeg", "image/webp"].includes(file.type)) {
+    signatureUpload.value = "";
+    return;
+  }
+  if (uploadedSignatureUrl) URL.revokeObjectURL(uploadedSignatureUrl);
+  uploadedSignatureUrl = URL.createObjectURL(file);
+  signatureImage.src = uploadedSignatureUrl;
+  syncSignatureVisibility();
 });
 function setTheme(isDark) {
   document.body.classList.toggle("dark-mode", isDark);
@@ -122,6 +139,18 @@ function drawDate(el, raw) {
 }
 function update() {
   const departDate = input("departDate").value;
+  const matchesMahmuda =
+    input("name").value.trim().toLocaleLowerCase("id-ID") ===
+    "muhammad mahmuda prawira";
+  if (isMahmudaName !== matchesMahmuda) {
+    if (uploadedSignatureUrl) URL.revokeObjectURL(uploadedSignatureUrl);
+    uploadedSignatureUrl = "";
+    signatureUpload.value = "";
+    signatureImage.src = "ttdku.png";
+  }
+  isMahmudaName = matchesMahmuda;
+  signatureUploadGroup.hidden = isMahmudaName;
+  syncSignatureVisibility();
   const dateSuffix = departDate ? departDate.split("-").reverse().join("") : "";
   document.title = `Form Permintaan SPD PTC${dateSuffix ? ` ${dateSuffix}` : ""}`;
   document
@@ -161,6 +190,7 @@ document.querySelectorAll("[data-view]").forEach((button) => {
 document.getElementById("printBtn").onclick = () => window.print();
 document.getElementById("resetBtn").onclick = () => {
   ids.forEach((id) => (input(id).value = defaults[id] || ""));
+  signatureUpload.value = "";
   purposeDateBase = null;
   update();
 };
